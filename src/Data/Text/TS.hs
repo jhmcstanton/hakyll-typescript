@@ -1,7 +1,11 @@
 module Data.Text.TS
   (
+    compressJtsCompiler,
+    compressJtsCompilerWith,
     compressTsCompiler,
     compressTsCompilerWith,
+    jtsCompiler,
+    jtsCompilerWith,
     tsCompiler,
     tsCompilerWith,
     TSArgs
@@ -18,10 +22,18 @@ import           Data.Text.Internal
 
 type TSArgs = [String]
 
+compressJtsCompiler :: Compiler (Item ByteString)
+compressJtsCompiler = compressJtsCompilerWith mempty
+
 -- |Compiles the typescript 'Hakyll.Core.Item.Item' to javascript, then
 -- minifies the result.
 compressTsCompiler :: Compiler (Item ByteString)
 compressTsCompiler = compressTsCompilerWith mempty
+
+-- |Compiles the typescript or javascript 'Hakyll.Core.Item.Item' to javascript,
+-- then minifies the result
+compressJtsCompilerWith :: TSArgs -> Compiler (Item ByteString)
+compressJtsCompilerWith args = withMinifyJs $ jtsCompilerWith args
 
 -- |Compiles the typescript 'Hakyll.Core.Item.Item' to javascript, then
 -- minifies the result. Passes all typescript arguments to the typescript
@@ -29,9 +41,18 @@ compressTsCompiler = compressTsCompilerWith mempty
 compressTsCompilerWith :: TSArgs -> Compiler (Item ByteString)
 compressTsCompilerWith args = withMinifyJs $ tsCompilerWith args
 
+-- |Compiles the typescript or javascript 'Hakyll.Core.Item.Item' to javascript.
+jtsCompiler :: Compiler (Item ByteString)
+jtsCompiler = jtsCompilerWith mempty
+
 -- |Compiles the typescript 'Hakyll.Core.Item.Item' to javascript.
 tsCompiler :: Compiler (Item ByteString)
 tsCompiler = tsCompilerWith mempty
+
+-- |Compiles the typescript or javascript 'Hakyll.Core.Item.Item' to javascript.
+-- Passes the provided 'TSArgs' to the typescript compiler.
+jtsCompilerWith :: TSArgs -> Compiler (Item ByteString)
+jtsCompilerWith args = tsCompilerWith $ ["--allowJs", "true"] <> args
 
 -- |Compiles the typescript 'Hakyll.Core.Item.Item' to javascript.
 -- Passes the provided 'TSArgs' to the typescript compiler.

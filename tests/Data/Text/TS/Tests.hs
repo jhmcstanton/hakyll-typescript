@@ -19,7 +19,14 @@ tests = testGroup "Data.Text.TS.Tests"
     handlesUserArgs,
     compressedFileSizeSmaller,
     compressedFileSizeSmallerWithArgs,
-    compressionErrorsReported
+    compressionErrorsReported,
+    jtsCompilerWithCompilesJSWithArgs,
+    jtsCompilerCompilesJs,
+    jtsCompilerCompilesTs,
+    compressJtsCompilerCompressesJs,
+    compressJtsCompilerCompressesTs,
+    compressJtsCompilerWithCompressesWithArgs,
+    compressJtsCompilerWithReportsErrors
   ]
 
 compilesTs :: TestTree
@@ -59,3 +66,43 @@ compressionErrorsReported =
   testCase "Compilation errors in compress ts compiler are reported" $ do
     runTestCompiler helloWorldJS compressTsCompiler
                   "tsc compilation success" expectFailure
+
+jtsCompilerWithCompilesJSWithArgs :: TestTree
+jtsCompilerWithCompilesJSWithArgs =
+  testCase "Compiles js and accepts more args" $ do
+    runTestCompiler helloWorldJS (jtsCompilerWith ["--target", "ES6"])
+                  "tsc compilation failed" expectSuccess
+
+jtsCompilerCompilesJs :: TestTree
+jtsCompilerCompilesJs = testCase "Compiles js successfully" $ do
+    runTestCompiler helloWorldJS jtsCompiler
+                  "tsc compilation failed" expectSuccess
+
+jtsCompilerCompilesTs :: TestTree
+jtsCompilerCompilesTs = testCase "Compiles ts successfully" $ do
+    runTestCompiler helloWorldTS jtsCompiler
+                  "tsc compilation failed" expectSuccess
+
+compressJtsCompilerWithCompressesWithArgs :: TestTree
+compressJtsCompilerWithCompressesWithArgs =
+  testCase "Compresses and uses more args" $ do
+    runTestCompiler helloWorldTS (compressJtsCompilerWith ["--target", "ES5"])
+                  "tsc compilation failed" expectSuccess
+
+compressJtsCompilerCompressesTs :: TestTree
+compressJtsCompilerCompressesTs =
+  testCase "Compresses ts" $ do
+    runTestCompiler helloWorldTS compressJtsCompiler
+                  "tsc compilation failed" expectSuccess
+
+compressJtsCompilerCompressesJs :: TestTree
+compressJtsCompilerCompressesJs =
+  testCase "Compresses js" $ do
+    runTestCompiler helloWorldJS compressJtsCompiler
+                  "tsc compilation failed" expectSuccess
+
+compressJtsCompilerWithReportsErrors :: TestTree
+compressJtsCompilerWithReportsErrors =
+  testCase "jts compiler reports errors" $ do
+    runExceptionCompiler helloWorldTS
+      (compressJtsCompilerWith ["--target", "ES2020"])
