@@ -1,11 +1,11 @@
-module Data.Text.JS
+module Hakyll.Typescript.JS
   (
     compressJsCompiler
   )
   where
 
 import           Data.ByteString.Lazy
-import           Data.Text.Internal
+import           Hakyll.Typescript.Internal
 import           Hakyll
 
 -- |Minifies the javascript 'Hakyll.Core.Item.Item'.

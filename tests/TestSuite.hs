@@ -1,7 +1,7 @@
 module Main where
 
-import qualified Data.Text.JS.Tests as JS
-import qualified Data.Text.TS.Tests as TS
+import qualified Hakyll.Typescript.JS.Tests as JS
+import qualified Hakyll.Typescript.TS.Tests as TS
 import           Test.Tasty (defaultMain, testGroup)
 
 main :: IO ()

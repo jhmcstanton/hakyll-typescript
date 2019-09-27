@@ -1,4 +1,4 @@
-module Data.Text.Internal
+module Hakyll.Typescript.Internal
   (
     minifyJs,
     withMinifyJs

@@ -1,17 +1,17 @@
-module Data.Text.TS.Tests
+module Hakyll.Typescript.TS.Tests
   (
     tests
   )
   where
 
-import           Data.Text.TS
-import           Data.Text.TestResources
+import           Hakyll.Typescript.TS
+import           Hakyll.Typescript.TestResources
 
 import           Test.Tasty
 import           Test.Tasty.HUnit
 
 tests :: TestTree
-tests = testGroup "Data.Text.TS.Tests"
+tests = testGroup "Hakyll.Typescript.TS.Tests"
   [
     compilesTs,
     errorsOnBadTs,

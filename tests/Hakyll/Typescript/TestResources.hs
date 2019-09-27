@@ -1,5 +1,5 @@
 {-# LANGUAGE PartialTypeSignatures #-}
-module Data.Text.TestResources
+module Hakyll.Typescript.TestResources
   (
     bad,
     expectFailure,

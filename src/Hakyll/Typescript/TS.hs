@@ -1,4 +1,4 @@
-module Data.Text.TS
+module Hakyll.Typescript.TS
   (
     compressJtsCompiler,
     compressJtsCompilerWith,
@@ -18,7 +18,7 @@ import           Hakyll.Core.Item
 import           Hakyll.Core.Compiler
 import           System.Process.Typed
 
-import           Data.Text.Internal
+import           Hakyll.Typescript.Internal
 
 type TSArgs = [String]
 
