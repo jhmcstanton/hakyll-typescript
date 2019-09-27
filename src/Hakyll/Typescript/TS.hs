@@ -1,3 +1,20 @@
+-- |Compilers for compiling and compressing typescript resources.
+-- There are various helper compilers for common compilation cases.
+-- In particular, 'compressJtsCompiler' will compile both typescript
+-- and javascript files, then compress them.
+--
+-- There are other variations that may be useful as well. 'compressTsCompiler'
+-- is similar to 'compressJtsCompiler', but is more strict and will not accept
+-- arbitrary javascript. 'compressTsCompilerWith' is the most general combinator,
+-- using this you can pass arbitrary arguments to the typescript compiler prior
+-- to compilation. These results are then minified as well.
+--
+-- Finally, if you just want to compile typescript without minification, perhaps
+-- for readability, use any of the functions that are not prefixed with "compress".
+-- Again, here 'tsCompilerWith' is the most general, allowing additional compiler
+-- arguments to be passed prior to compilation. 'jtsCompiler' is provided for
+-- convenience to support flexibly compiling javascript and typescript without
+-- compression.
 module Hakyll.Typescript.TS
   (
     compressJtsCompiler,
@@ -20,8 +37,10 @@ import           System.Process.Typed
 
 import           Hakyll.Typescript.Internal
 
+-- |Arguments to pass to the typescript compiler.
 type TSArgs = [String]
 
+-- |Compiles the typescript or javascript 'Hakyll.Core.Item.Item' to javascript.
 compressJtsCompiler :: Compiler (Item ByteString)
 compressJtsCompiler = compressJtsCompilerWith mempty
 

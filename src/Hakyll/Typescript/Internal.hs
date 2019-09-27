@@ -1,3 +1,5 @@
+-- |Internal helper utilities. Subject to change. Avoid relying on anything
+-- found in here.
 module Hakyll.Typescript.Internal
   (
     minifyJs,
