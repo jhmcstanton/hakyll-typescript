@@ -15,8 +15,11 @@ tests = testGroup "Data.Text.TS.Tests"
   [
     compilesTs,
     errorsOnBadTs,
-    errorsOnJsByDefault,
-    handlesUserArgs
+    tscErrorsReported,
+    handlesUserArgs,
+    compressedFileSizeSmaller,
+    compressedFileSizeSmallerWithArgs,
+    compressionErrorsReported
   ]
 
 compilesTs :: TestTree
@@ -30,8 +33,8 @@ errorsOnBadTs = testCase "Raises an exception on invalid TS" $ do
                   "tsc compilation success (but it shouldn't have)"
                   expectFailure
 
-errorsOnJsByDefault :: TestTree
-errorsOnJsByDefault = testCase "JS is not supported by default" $ do
+tscErrorsReported :: TestTree
+tscErrorsReported = testCase "Compilation errors reported" $ do
   runTestCompiler helloWorldJS tsCompiler
                   "tsc compilation success (but it shouldn't have)"
                   expectFailure
@@ -40,3 +43,19 @@ handlesUserArgs :: TestTree
 handlesUserArgs = testCase "Successfully passes user arguments to tsc" $ do
   runTestCompiler helloWorldJS (tsCompilerWith ["--allowJs", "true"])
                   "tsc compilation failure" expectSuccess
+
+compressedFileSizeSmaller :: TestTree
+compressedFileSizeSmaller = testCase "Valid TS minifies successfully" $ do
+  runTestCompiler helloWorldTS compressTsCompiler
+                  "tsc compilation failure" expectSuccess
+
+compressedFileSizeSmallerWithArgs :: TestTree
+compressedFileSizeSmallerWithArgs = testCase "Valid JS minifies successfully" $ do
+  runTestCompiler helloWorldTS (compressTsCompilerWith ["--allowJs", "true"])
+                  "tsc compilation failure" expectSuccess
+
+compressionErrorsReported :: TestTree
+compressionErrorsReported =
+  testCase "Compilation errors in compress ts compiler are reported" $ do
+    runTestCompiler helloWorldJS compressTsCompiler
+                  "tsc compilation success" expectFailure

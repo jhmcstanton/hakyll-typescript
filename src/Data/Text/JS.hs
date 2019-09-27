@@ -4,11 +4,10 @@ module Data.Text.JS
   )
   where
 
+import           Data.ByteString.Lazy
+import           Data.Text.Internal
 import           Hakyll
-import           Data.ByteString.Lazy.Char8 (pack, unpack)
-import           Text.Jasmine
 
-compressJsCompiler :: Compiler (Item String)
-compressJsCompiler = getResourceString >>= withItemBody minifyJs
-  where
-    minifyJs = pure . unpack . minify . pack
+-- |Minifies the javascript 'Hakyll.Core.Item.Item'.
+compressJsCompiler :: Compiler (Item ByteString)
+compressJsCompiler = withMinifyJs getResourceLBS

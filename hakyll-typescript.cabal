@@ -21,6 +21,7 @@ library
   hs-source-dirs:      src
   exposed-modules:     Data.Text.JS
                      , Data.Text.TS
+  other-modules:       Data.Text.Internal
   build-depends:       base          >= 4.7      && < 5
                      , bytestring    >= 0.10.8.2 && < 0.11
                      , hakyll        >= 4.12.4.0 && < 4.13
