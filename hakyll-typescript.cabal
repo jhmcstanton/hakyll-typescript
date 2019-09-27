@@ -1,5 +1,5 @@
 name:                hakyll-typescript
-version:             0.0.2.0
+version:             0.0.2.1
 synopsis:            Typescript and javascript hakyll compilers.
 description:         Provides typescript to javascript hakyll compilers and a
                      js minifying hakyll compiler. This is a simple wrapper
