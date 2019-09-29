@@ -1,5 +1,7 @@
 # hakyll-typescript
 
+![Hackage Badge](https://img.shields.io/hackage/v/hakyll-typescript)
+
 A simple [`hakyll`](http://hackage.haskell.org/package/hakyll)
 typescript compiler for typescript and javascript resources. Uses
 [`hjsmin`](http://hackage.haskell.org/package/hjsmin) for compression.
