@@ -1,6 +1,6 @@
 # hakyll-typescript
 
-![Hackage Badge](https://img.shields.io/hackage/v/hakyll-typescript)
+[![Hackage Badge](https://img.shields.io/hackage/v/hakyll-typescript)](http://hackage.haskell.org/package/hakyll-typescript)
 
 A simple [`hakyll`](http://hackage.haskell.org/package/hakyll)
 typescript compiler for typescript and javascript resources. Uses
