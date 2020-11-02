@@ -30,10 +30,9 @@ module Hakyll.Typescript.TS
   where
 
 import           Data.ByteString.Lazy.Char8 (ByteString)
-import           GHC.Conc                   (atomically)
 import           Hakyll.Core.Item
 import           Hakyll.Core.Compiler
-import           System.Process.Typed
+import           Hakyll.Process             (execName, execCompilerWith, ExecutableArg(..), CompilerOut(CStdOut))
 
 import           Hakyll.Typescript.Internal
 
@@ -76,21 +75,8 @@ jtsCompilerWith args = tsCompilerWith $ ["--allowJs", "true"] <> args
 -- |Compiles the typescript 'Hakyll.Core.Item.Item' to javascript.
 -- Passes the provided 'TSArgs' to the typescript compiler.
 tsCompilerWith :: TSArgs -> Compiler (Item ByteString)
-tsCompilerWith args = do
+tsCompilerWith args = execCompilerWith (execName "tsc") allArgs CStdOut
+  where
   -- this won't work on Windows, but that's probably fine
-  let defaultArgs = ["--outFile", "/dev/stdout"]
-  tsPath <- getResourceFilePath
-  let fullArgs = defaultArgs <> args <> [tsPath]
-  jsBody <- unsafeCompiler $ tsc fullArgs
-  -- just using this to get at the item
-  oldTsBody <- getResourceString
-  pure $ itemSetBody jsBody oldTsBody
-
-tsc :: TSArgs -> IO ByteString
-tsc args = withProcess procConf waitJsOutput where
-  procConf = setStdout byteStringOutput . proc "tsc" $ args
-  waitJsOutput process = do
-    let stmJs = getStdout process
-    js <- atomically stmJs
-    checkExitCode process
-    pure js
+  defaultArgs = [ProcArg "--outFile", ProcArg "/dev/stdout"]
+  allArgs     = defaultArgs <> fmap ProcArg args <> [HakFilePath]
